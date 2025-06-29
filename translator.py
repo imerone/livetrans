@@ -1,14 +1,12 @@
 import logging
 import requests
-from flask import Flask
-from threading import Thread
 from telegram import InlineQueryResultArticle, InputTextMessageContent
 from telegram.ext import Application, CommandHandler, MessageHandler, InlineQueryHandler, filters
 from uuid import uuid4
 import os
 
 # Get bot token from environment (more secure)
-BOT_TOKEN = os.getenv("BOT_TOKEN") or "7847727944:AAGhHHW2pIAu_qKoskfZU6wxtK_oCRWupwc"
+BOT_TOKEN = os.getenv("BOT_TOKEN")
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -65,30 +63,17 @@ async def inline_query(update, context):
 
 # Main bot function
 def main():
+    if not BOT_TOKEN:
+        logger.error("❌ BOT_TOKEN not set in environment variables!")
+        return
     application = Application.builder().token(BOT_TOKEN).build()
 
     application.add_handler(CommandHandler("start", start))
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
     application.add_handler(InlineQueryHandler(inline_query))
 
-    print("✅ Bot is running...")
+    logger.info("✅ Bot is running...")
     application.run_polling()
 
-# Flask keep-alive for Render
-app = Flask(__name__)
-
-@app.route('/')
-def home():
-    return "✅ Bot is alive!"
-
-def run_flask():
-    app.run(host='0.0.0.0', port=8080)
-
-def keep_alive():
-    t = Thread(target=run_flask)
-    t.start()
-
-# Run bot and server
 if __name__ == '__main__':
-    keep_alive()
     main()
