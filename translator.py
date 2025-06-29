@@ -6,7 +6,7 @@ from uuid import uuid4
 import os
 
 # Get bot token from environment (more secure)
-BOT_TOKEN = os.getenv("BOT_TOKEN")
+BOT_TOKEN = os.getenv("7847727944:AAGhHHW2pIAu_qKoskfZU6wxtK_oCRWupwc")
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -64,7 +64,7 @@ async def inline_query(update, context):
 # Main bot function
 def main():
     if not BOT_TOKEN:
-        logger.error("❌ BOT_TOKEN not set in environment variables!")
+        logger.error("7847727944:AAGhHHW2pIAu_qKoskfZU6wxtK_oCRWupwc")
         return
     application = Application.builder().token(BOT_TOKEN).build()
 
