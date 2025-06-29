@@ -55,7 +55,7 @@ async def inline_query(update, context):
 
     results = [
         InlineQueryResultArticle(
-            id=str(uuid4()),
+            id=uuid4(),
             title=f"{title} {translated}",
             input_message_content=InputTextMessageContent(translated)
         )
@@ -71,8 +71,8 @@ def main():
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
     application.add_handler(InlineQueryHandler(inline_query))
 
-    application.run_polling()
     print("✅ Bot is running...")
+    application.run_polling()
 
 # Flask keep-alive for Render
 app = Flask(__name__)
